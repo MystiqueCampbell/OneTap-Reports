@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>OneTap Executive Growth Report</title>
+	<!-- Chart.js for data visualization -->
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<!-- html2pdf for client-side PDF downloading -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+	<style>
+		:root {
+			--bg-app: #0f172a;
+			--bg-card: #ffffff;
+			--primary: #090d16;
+			--accent: #059669;
+			--accent-bg: #ecfdf5;
+			--text-main: #0f172a;
+			--text-muted: #475569;
+			--border: #cbd5e1;
+		}
+
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+			background-color: var(--bg-app);
+			color: var(--text-main);
+			margin: 0;
+			padding: 10px 5px;
+			display: flex;
+			justify-content: center;
+			align-items: flex-start;
+			min-height: 100vh;
+		}
+
+		.main-wrapper {
+			width: 100%;
+			max-width: 680px;
+		}
+
+		.report-container {
+			background: var(--bg-card);
+			border-radius: 10px;
+			box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.3);
+			padding: 10px 14px;
+			width: 100%;
+			margin: 0 auto;
+			display: flex;
+			flex-direction: column;
+		}
+
+		.report-header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			border-bottom: 2px solid var(--primary);
+			padding-bottom: 6px;
+			margin-bottom: 6px;
+		}
+
+		.brand-badge {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+		}
+
+		.brand-logo {
+			width: 28px;
+			height: 28px;
+			background: linear-gradient(135deg, #1e293b, #0f172a);
+			color: white;
+			border-radius: 5px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-weight: 900;
+			font-size: 12px;
+		}
+
+		.brand-info h1 {
+			font-size: 13px;
+			font-weight: 900;
+			color: var(--primary);
+			margin: 0;
+		}
+
+		.brand-info p {
+			font-size: 7.5px;
+			color: var(--text-muted);
+			margin: 1px 0 0 0;
+			font-weight: 700;
+			text-transform: uppercase;
+		}
+
+		.report-meta {
+			text-align: right;
+		}
+
+		.report-meta h2 {
+			font-size: 11px;
+			font-weight: 800;
+			color: var(--primary);
+			margin: 0;
+		}
+
+		.report-meta p {
+			font-size: 8.5px;
+			color: var(--text-muted);
+			font-weight: 600;
+			margin: 1px 0 0 0;
+		}
+
+		.control-panel {
+			background: #f8fafc;
+			border: 1px solid var(--border);
+			border-radius: 6px;
+			padding: 6px 8px;
+			margin-bottom: 6px;
+		}
+
+		.control-panel h3 {
+			font-size: 8px;
+			font-weight: 800;
+			text-transform: uppercase;
+			color: var(--text-muted);
+			margin: 0 0 4px 0;
+			letter-spacing: 0.5px;
+		}
+
+		.form-grid {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: 5px;
+			margin-bottom: 4px;
+		}
+
+		.month-input-row {
+			background: #ffffff;
+			border: 1px solid var(--border);
+			border-radius: 5px;
+			padding: 4px 6px;
+			margin-bottom: 3px;
+		}
+
+		.month-input-row h4 {
+			font-size: 7.5px;
+			font-weight: 800;
+			color: var(--primary);
+			margin: 0 0 2px 0;
+			text-transform: uppercase;
+		}
+
+		.month-grid-3 {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: 4px;
+		}
+
+		.form-group {
+			display: flex;
+			flex-direction: column;
+		}
+
+		.form-group label {
+			font-size: 6.5px;
+			font-weight: 800;
+			text-transform: uppercase;
+			color: var(--text-muted);
+			margin-bottom: 1px;
+		}
+
+		.form-group input,
+		.form-group select {
+			padding: 3px 5px;
+			border: 1px solid #94a3b8;
+			border-radius: 4px;
+			font-size: 9.5px;
+			font-weight: 600;
+			color: var(--text-main);
+			background: #ffffff;
+			outline: none;
+			width: 100%;
+		}
+
+		.section-header-title {
+			font-size: 8.5px;
+			font-weight: 900;
+			text-transform: uppercase;
+			color: var(--primary);
+			margin: 6px 0 3px 0;
+			letter-spacing: 0.5px;
+			border-bottom: 1.5px solid var(--border);
+			padding-bottom: 2px;
+		}
+
+		.metrics-summary-grid {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: 5px;
+			margin-bottom: 5px;
+		}
+
+		.metric-card {
+			background: #f8fafc;
+			border: 1.5px solid var(--border);
+			border-radius: 5px;
+			padding: 5px 7px;
+		}
+
+		.metric-card.highlight {
+			background: var(--accent-bg);
+			border-color: #34d399;
+			border-top: 3px solid var(--accent);
+		}
+
+		.metric-label {
+			font-size: 7px;
+			font-weight: 800;
+			text-transform: uppercase;
+			color: var(--text-muted);
+			margin-bottom: 1px;
+		}
+
+		.metric-card.highlight .metric-label {
+			color: #065f46;
+		}
+
+		.metric-val {
+			font-size: 13.5px;
+			font-weight: 900;
+			color: var(--primary);
+		}
+
+		.metric-card.highlight .metric-val {
+			color: #047857;
+		}
+
+		.metrics-summary-grid.large-grid .metric-card {
+			padding: 8px 9px;
+		}
+
+		.metrics-summary-grid.large-grid .metric-label {
+			font-size: 8px;
+		}
+
+		.metrics-summary-grid.large-grid .metric-val {
+			font-size: 16px;
+		}
+
+		.charts-column {
+			display: flex;
+			flex-direction: column;
+			gap: 6px;
+			margin-bottom: 5px;
+		}
+
+		.chart-card {
+			background: #f8fafc;
+			border: 1.5px solid var(--border);
+			border-radius: 5px;
+			padding: 6px 8px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		.chart-title {
+			font-size: 8px;
+			font-weight: 800;
+			text-transform: uppercase;
+			color: var(--text-muted);
+			margin-bottom: 3px;
+			text-align: center;
+			width: 100%;
+		}
+
+		.chart-container {
+			position: relative;
+			height: 75px;
+			width: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.chart-synopsis {
+			font-size: 8px;
+			font-weight: 600;
+			color: var(--text-muted);
+			margin-top: 4px;
+			text-align: center;
+			width: 100%;
+			border-top: 1px dashed var(--border);
+			padding-top: 3px;
+		}
+
+		.insights-box {
+			background: #f8fafc;
+			border: 1.5px solid var(--border);
+			border-left: 4px solid #2563eb;
+			border-radius: 0 5px 5px 0;
+			padding: 5px 8px;
+			margin-bottom: 5px;
+		}
+
+		.insights-box.combined-box {
+			border-left-color: var(--accent);
+		}
+
+		.insights-box h4 {
+			font-size: 8px;
+			font-weight: 900;
+			text-transform: uppercase;
+			color: #1e40af;
+			margin: 0 0 2px 0;
+		}
+
+		.insights-box.combined-box h4 {
+			color: #065f46;
+		}
+
+		.insights-content {
+			font-size: 9px;
+			font-weight: 600;
+			line-height: 1.3;
+			color: var(--text-main);
+		}
+
+		/* Footer Disclaimer Section locked to bottom of PDF */
+		.report-footer-section {
+			margin-top: auto;
+			padding-top: 6px;
+		}
+
+		.report-disclaimer {
+			font-size: 6px;
+			font-style: italic;
+			color: #64748b;
+			line-height: 1.2;
+			text-align: justify;
+			border-top: 1px solid var(--border);
+			padding-top: 4px;
+			margin-bottom: 0;
+		}
+
+		.action-toolbar {
+			display: flex;
+			justify-content: flex-end;
+			border-top: 1.5px solid var(--border);
+			padding-top: 6px;
+			margin-top: 6px;
+		}
+
+		.btn-download {
+			background: linear-gradient(135deg, #0f172a, #1e293b);
+			color: white;
+			border: none;
+			padding: 5px 10px;
+			font-size: 9.5px;
+			font-weight: 700;
+			border-radius: 5px;
+			cursor: pointer;
+			display: inline-flex;
+			align-items: center;
+			gap: 5px;
+			box-shadow: 0 3px 8px rgba(15, 23, 42, 0.2);
+		}
+	</style>
+</head>
+
+<body>
+
+	<div class="main-wrapper">
+		<div class="report-container" id="pdf-content">
+
+			<!-- Header -->
+			<div class="report-header">
+				<div class="brand-badge">
+					<div class="brand-logo">1T</div>
+					<div class="brand-info">
+						<h1>OneTap Technology</h1>
+						<p>Reputation Growth Engine</p>
+					</div>
+				</div>
+				<div class="report-meta">
+					<h2>Executive Performance Report</h2>
+					<p id="meta-display">Client Analytics Overview</p>
+				</div>
+			</div>
+
+			<!-- Live Editable Input Controls -->
+			<div class="control-panel" id="inputs-panel">
+				<h3>Configure Report Parameters & Historical Data</h3>
+				<div class="form-grid">
+					<div class="form-group">
+						<label for="input-name">Business Name</label>
+						<input type="text" id="input-name" placeholder="e.g., Apex Barbershop" oninput="updateDashboard()">
+					</div>
+					<div class="form-group">
+						<label for="input-timeline">Active Range Length</label>
+						<select id="input-timeline" onchange="renderMonthInputs(); updateDashboard();">
+							<option value="1">1 Month</option>
+							<option value="2">2 Months</option>
+							<option value="3">3 Months</option>
+							<option value="4">4 Months</option>
+							<option value="5" selected>5 Months</option>
+							<option value="6">6 Months</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="input-current-month">Current Active Month</label>
+						<select id="input-current-month" onchange="renderMonthInputs(); updateDashboard();">
+							<option value="January">January</option>
+							<option value="February">February</option>
+							<option value="March">March</option>
+							<option value="April">April</option>
+							<option value="May">May</option>
+							<option value="June">June</option>
+							<option value="July">July</option>
+							<option value="August">August</option>
+							<option value="September">September</option>
+							<option value="October">October</option>
+							<option value="November" selected>November</option>
+							<option value="December">December</option>
+						</select>
+					</div>
+				</div>
+				<div id="dynamic-months-container"></div>
+			</div>
+
+			<!-- SECTION 1: SPOTLIGHT -->
+			<div class="section-header-title" id="spotlight-section-title">Current Month Breakdown & Spotlight</div>
+
+			<div class="metrics-summary-grid">
+				<div class="metric-card">
+					<div class="metric-label" id="spotlight-taps-label">Current Month Taps</div>
+					<div id="stat-taps" class="metric-val">120</div>
+				</div>
+				<div class="metric-card">
+					<div class="metric-label">Conversion Rate</div>
+					<div id="stat-conversion" class="metric-val">55.8%</div>
+				</div>
+				<div class="metric-card highlight">
+					<div class="metric-label">Est. Revenue Generated</div>
+					<div id="stat-rev-display" class="metric-val">$2,345</div>
+				</div>
+			</div>
+
+			<!-- STACKED CHARTS COLUMN -->
+			<div class="charts-column">
+				<!-- Chart 1 -->
+				<div class="chart-card">
+					<div class="chart-title" id="conversion-chart-title">Tap-to-Review Conversion (Current Month Spotlight)</div>
+					<div class="chart-container">
+						<canvas id="conversionChart"></canvas>
+					</div>
+					<div class="chart-synopsis" id="synopsis-conversion">
+						Out of 120 total taps, 67 customers left reviews and 53 left without reviewing.
+					</div>
+				</div>
+
+				<!-- Chart 2 -->
+				<div class="chart-card">
+					<div class="chart-title" id="mom-chart-title">Month-over-Month Revenue Trend</div>
+					<div class="chart-container">
+						<canvas id="revenueTrendChart"></canvas>
+					</div>
+					<div class="chart-synopsis" id="synopsis-revenue">
+						Monthly Estimated Revenue: July ($5,250), August ($4,200), September ($4,305), October ($4,900), November ($4,200).
+					</div>
+				</div>
+
+				<!-- Chart 3 -->
+				<div class="chart-card">
+					<div class="chart-title" id="taps-trend-chart-title">Month-by-Month Customer Taps Comparison</div>
+					<div class="chart-container">
+						<canvas id="tapsTrendChart"></canvas>
+					</div>
+					<div class="chart-synopsis" id="synopsis-taps">
+						Total Taps per Month: July (150), August (120), September (123), October (140), November (120).
+					</div>
+				</div>
+			</div>
+
+			<!-- Spotlight Insight -->
+			<div class="insights-box">
+				<h4>Spotlight Insight</h4>
+				<div id="stat-insights" class="insights-content">
+					🚀 <strong>Current Month Spotlight:</strong> Out of 120 customer interactions, your team successfully captured 67 reviews (55.8% conversion efficiency). Based on an average sale value of $35, this specific monthly push generated $2,345 in new client revenue.
+				</div>
+			</div>
+
+			<!-- SECTION 2: CUMULATIVE SUMMARY -->
+			<div class="section-header-title" id="cumulative-section-title">Overall Multi-Month Performance Summary</div>
+
+			<div class="metrics-summary-grid large-grid">
+				<div class="metric-card">
+					<div class="metric-label">Total Customer Taps</div>
+					<div id="cum-taps" class="metric-val">583</div>
+				</div>
+				<div class="metric-card">
+					<div class="metric-label">Total Reviews Captured</div>
+					<div id="cum-captured" class="metric-val">399</div>
+				</div>
+				<div class="metric-card highlight">
+					<div class="metric-label">Total Est. Revenue Generated</div>
+					<div id="cum-revenue" class="metric-val">$7,165</div>
+				</div>
+			</div>
+
+			<div class="insights-box combined-box">
+				<h4>A Look at What’s Been Happening</h4>
+				<div id="cum-insights" class="insights-content">
+					📈 <strong>Active Period Impact:</strong> Across your active tracking window, your team recorded 583 total customer taps, successfully capturing <strong>399 verified reviews</strong> (68.4% overall efficiency). This consistent engagement directly influenced an estimated <strong>$7,165</strong> in total new client revenue.
+				</div>
+			</div>
+
+			<!-- Footer Disclaimer Section (Locked at the bottom of the PDF report layout) -->
+			<div class="report-footer-section">
+				<div class="report-disclaimer">
+					<strong>Disclaimer:</strong> Estimated revenue figures are calculated using an average ticket value and actual transaction amounts may vary higher or lower. Additionally, total reviews captured reflect overall Google review activity and are not exclusively limited to NFC card taps. This report is designed to illustrate trends, correlations, and general performance over time rather than exact individual attributions.
+				</div>
+			</div>
+
+			<!-- Action Download Toolbar -->
+			<div class="action-toolbar" id="action-toolbar">
+				<button class="btn-download" onclick="downloadReportPDF()">
+					<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+						<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+						<polyline points="7 10 12 15 17 10"></polyline>
+						<line x1="12" y1="15" x2="12" y2="3"></line>
+					</svg>
+					Download 1-Page Executive PDF Report
+				</button>
+			</div>
+
+		</div>
+	</div>
+
+	<!-- Dashboard Logic & Chart Engines -->
+	<script>
+		const allMonthsList = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+		let conversionChartInstance = null;
+		let revenueTrendChartInstance = null;
+		let tapsTrendChartInstance = null;
+
+		const monthDataStore = {
+			1: { taps: '150', captured: '67', ticket: '35' },
+			2: { taps: '120', captured: '88', ticket: '35' },
+			3: { taps: '123', captured: '77', ticket: '35' },
+			4: { taps: '140', captured: '55', ticket: '35' },
+			5: { taps: '120', captured: '67', ticket: '35' },
+			6: { taps: '', captured: '', ticket: '' }
+		};
+
+		function getActiveMonthLabels() {
+			const activeRange = parseInt(document.getElementById('input-timeline').value) || 5;
+			const currentMonthSelect = document.getElementById('input-current-month').value;
+			let currentIdx = allMonthsList.indexOf(currentMonthSelect);
+			if (currentIdx === -1) currentIdx = 10;
+
+			let labels = [];
+			for (let i = activeRange - 1; i >= 0; i--) {
+				let targetIdx = (currentIdx - i + 12) % 12;
+				labels.push(allMonthsList[targetIdx]);
+			}
+			return labels;
+		}
+
+		function renderMonthInputs() {
+			const activeRange = parseInt(document.getElementById('input-timeline').value) || 5;
+
+			for (let i = 1; i <= 6; i++) {
+				const tInput = document.getElementById(`taps-m${i}`);
+				const cInput = document.getElementById(`captured-m${i}`);
+				const tkInput = document.getElementById(`ticket-m${i}`);
+				if (tInput) monthDataStore[i].taps = tInput.value;
+				if (cInput) monthDataStore[i].captured = cInput.value;
+				if (tkInput) monthDataStore[i].ticket = tkInput.value;
+			}
+
+			const monthLabels = getActiveMonthLabels();
+			let html = '';
+			for (let i = 1; i <= activeRange; i++) {
+				const labelName = `${monthLabels[i - 1]} Data Entry (Month ${i})`;
+				html += `
+					<div class="month-input-row">
+						<h4>${labelName}</h4>
+						<div class="month-grid-3">
+							<div class="form-group">
+								<label>Customer Taps</label>
+								<input type="number" id="taps-m${i}" value="${monthDataStore[i].taps}" placeholder="150" oninput="updateDashboard()">
+							</div>
+							<div class="form-group">
+								<label>Reviews Captured</label>
+								<input type="number" id="captured-m${i}" value="${monthDataStore[i].captured}" placeholder="125" oninput="updateDashboard()">
+							</div>
+							<div class="form-group">
+								<label>Avg. Ticket ($)</label>
+								<input type="number" id="ticket-m${i}" value="${monthDataStore[i].ticket}" placeholder="45" oninput="updateDashboard()">
+							</div>
+						</div>
+					</div>
+				`;
+			}
+			document.getElementById('dynamic-months-container').innerHTML = html;
+		}
+
+		function initCharts() {
+			const sharedTooltipOptions = {
+				plugins: {
+					legend: { display: false },
+					tooltip: {
+						mode: 'index',
+						intersect: true,
+						padding: 6,
+						titleFont: { size: 9, weight: '700' },
+						bodyFont: { size: 8, weight: '600' }
+					}
+				}
+			};
+
+			// Chart 1: Conversion Breakdown
+			const ctxConversion = document.getElementById('conversionChart').getContext('2d');
+			conversionChartInstance = new Chart(ctxConversion, {
+				type: 'bar',
+				data: {
+					labels: ['Completed Reviews', 'Abandoned Taps'],
+					datasets: [{
+						data: [67, 53],
+						backgroundColor: ['#059669', '#94a3b8'],
+						borderRadius: 4
+					}]
+				},
+				options: {
+					responsive: true,
+					maintainAspectRatio: false,
+					...sharedTooltipOptions,
+					scales: {
+						y: {
+							beginAtZero: true,
+							grid: { color: '#e2e8f0' },
+							ticks: { font: { size: 7.5, weight: '700' }, color: '#334155', maxTicksLimit: 3 }
+						},
+						x: {
+							grid: { display: false },
+							ticks: { font: { size: 8, weight: '700' }, color: '#334155' }
+						}
+					}
+				}
+			});
+
+			// Chart 2: Revenue Trend Line
+			const ctxRevenue = document.getElementById('revenueTrendChart').getContext('2d');
+			revenueTrendChartInstance = new Chart(ctxRevenue, {
+				type: 'line',
+				data: {
+					labels: ['July', 'August', 'September', 'October', 'November'],
+					datasets: [{
+						data: [2345, 3080, 2695, 1925, 2345],
+						borderColor: '#2563eb',
+						backgroundColor: 'rgba(37, 99, 235, 0.1)',
+						borderWidth: 3,
+						pointRadius: 3,
+						pointBackgroundColor: '#2563eb',
+						tension: 0.1,
+						fill: true
+					}]
+				},
+				options: {
+					responsive: true,
+					maintainAspectRatio: false,
+					...sharedTooltipOptions,
+					scales: {
+						y: {
+							beginAtZero: true,
+							grid: { color: '#e2e8f0' },
+							ticks: { font: { size: 7.5, weight: '700' }, color: '#334155', maxTicksLimit: 3 }
+						},
+						x: {
+							grid: { display: false },
+							ticks: { font: { size: 8, weight: '700' }, color: '#334155' }
+						}
+					}
+				}
+			});
+
+			// Chart 3: Month-by-Month Taps Comparison Bar Chart
+			const ctxTapsTrend = document.getElementById('tapsTrendChart').getContext('2d');
+			tapsTrendChartInstance = new Chart(ctxTapsTrend, {
+				type: 'bar',
+				data: {
+					labels: ['July', 'August', 'September', 'October', 'November'],
+					datasets: [{
+						data: [150, 120, 123, 140, 120],
+						backgroundColor: '#059669',
+						borderRadius: 4,
+						maxBarThickness: 32
+					}]
+				},
+				options: {
+					responsive: true,
+					maintainAspectRatio: false,
+					...sharedTooltipOptions,
+					scales: {
+						y: {
+							beginAtZero: true,
+							grid: { color: '#e2e8f0' },
+							ticks: { font: { size: 7.5, weight: '700' }, color: '#334155', maxTicksLimit: 3 }
+						},
+						x: {
+							grid: { display: false },
+							ticks: { font: { size: 8, weight: '700' }, color: '#334155' }
+						}
+					}
+				}
+			});
+
+			renderMonthInputs();
+			updateDashboard();
+		}
+
+		function updateDashboard() {
+			const name = document.getElementById('input-name').value.trim() || "Client Overview";
+			const activeRange = parseInt(document.getElementById('input-timeline').value) || 5;
+			const monthLabels = getActiveMonthLabels();
+
+			for (let i = 1; i <= activeRange; i++) {
+				const tInput = document.getElementById(`taps-m${i}`);
+				const cInput = document.getElementById(`captured-m${i}`);
+				const tkInput = document.getElementById(`ticket-m${i}`);
+				if (tInput) monthDataStore[i].taps = tInput.value;
+				if (cInput) monthDataStore[i].captured = cInput.value;
+				if (tkInput) monthDataStore[i].ticket = tkInput.value;
+			}
+
+			const spotlightMonthIndex = activeRange;
+			const spotlightMonthLabel = monthLabels[activeRange - 1];
+
+			const sTaps = parseFloat(monthDataStore[spotlightMonthIndex].taps) || 0;
+			const sCaptured = parseFloat(monthDataStore[spotlightMonthIndex].captured) || 0;
+			const sTicket = parseFloat(monthDataStore[spotlightMonthIndex].ticket) || 0;
+			const sRevenue = sCaptured * sTicket;
+
+			document.getElementById('meta-display').innerText = (name !== "Client Overview" ? name : "Client Analytics Overview") + ` | ${activeRange}-Month Tracking`;
+			document.getElementById('spotlight-section-title').innerText = `${spotlightMonthLabel} Breakdown & Spotlight`;
+			document.getElementById('spotlight-taps-label').innerText = `${spotlightMonthLabel} Taps`;
+			document.getElementById('stat-taps').innerText = sTaps > 0 ? sTaps.toLocaleString() : "0";
+
+			let sConv = 0;
+			if (sTaps > 0 && sCaptured > 0) {
+				sConv = Math.min(100, (sCaptured / sTaps) * 100);
+				document.getElementById('stat-conversion').innerText = sConv.toFixed(1) + "%";
+			} else {
+				document.getElementById('stat-conversion').innerText = "0%";
+			}
+			document.getElementById('stat-rev-display').innerText = "$" + Math.round(sRevenue).toLocaleString();
+
+			// Update Chart 1 Synopsis text box
+			const uncaptured = Math.max(0, sTaps - sCaptured);
+			document.getElementById('synopsis-conversion').innerText = `During ${spotlightMonthLabel}: Out of ${sTaps} total customer taps, ${sCaptured} successfully left reviews and ${uncaptured} left without reviewing.`;
+
+			if (sTaps === 0) {
+				document.getElementById('stat-insights').innerHTML = `📊 <strong>Getting Started:</strong> Enter your numbers for ${spotlightMonthLabel} above.`;
+			} else {
+				document.getElementById('stat-insights').innerHTML = `🚀 <strong>${spotlightMonthLabel} Spotlight:</strong> Out of ${sTaps} customer interactions, your team successfully captured <strong>${sCaptured} reviews</strong> (${sConv.toFixed(1)}% conversion efficiency). Based on an average sale value of $${sTicket}, this specific monthly push generated <strong>$${Math.round(sRevenue).toLocaleString()}</strong> in new client revenue.`;
+			}
+
+			let totalTaps = 0;
+			let totalCaptured = 0;
+			let totalRevenue = 0;
+			let revenueTrendData = [];
+			let tapsTrendData = [];
+			let revSummaryParts = [];
+			let tapsSummaryParts = [];
+
+			for (let i = 1; i <= activeRange; i++) {
+				const mtaps = parseFloat(monthDataStore[i].taps) || 0;
+				const mcap = parseFloat(monthDataStore[i].captured) || 0;
+				const mtick = parseFloat(monthDataStore[i].ticket) || 0;
+				const mrev = mcap * mtick;
+
+				totalTaps += mtaps;
+				totalCaptured += mcap;
+				totalRevenue += mrev;
+
+				revenueTrendData.push(mrev);
+				tapsTrendData.push(mtaps);
+
+				revSummaryParts.push(`${monthLabels[i-1]}: $${Math.round(mrev).toLocaleString()}`);
+				tapsSummaryParts.push(`${monthLabels[i-1]}: ${mtaps.toLocaleString()} taps`);
+			}
+
+			// Update Chart 2 & 3 Synopses text boxes
+			document.getElementById('synopsis-revenue').innerText = `Estimated Revenue per Month — ${revSummaryParts.join(' | ')}`;
+			document.getElementById('synopsis-taps').innerText = `Customer Taps per Month — ${tapsSummaryParts.join(' | ')}`;
+
+			document.getElementById('cum-taps').innerText = totalTaps.toLocaleString();
+			document.getElementById('cum-captured').innerText = totalCaptured.toLocaleString();
+			document.getElementById('cum-revenue').innerText = "$" + Math.round(totalRevenue).toLocaleString();
+
+			let overallConv = totalTaps > 0 ? (totalCaptured / totalTaps) * 100 : 0;
+			document.getElementById('cum-insights').innerHTML = `📈 <strong>Active ${activeRange}-Month Impact (${monthLabels[0]} – ${monthLabels[activeRange - 1]}):</strong> Across your active tracking period, your team recorded ${totalTaps.toLocaleString()} total customer taps, successfully capturing <strong>${totalCaptured.toLocaleString()} verified reviews</strong> (${overallConv.toFixed(1)}% overall efficiency). This consistent engagement directly influenced an estimated <strong>$${Math.round(totalRevenue).toLocaleString()}</strong> in total new client revenue.`;
+
+			if (conversionChartInstance) {
+				conversionChartInstance.data.datasets[0].data = [sCaptured, uncaptured];
+				document.getElementById('conversion-chart-title').innerText = `Tap-to-Review Conversion (${spotlightMonthLabel} Spotlight)`;
+				conversionChartInstance.update();
+			}
+
+			if (revenueTrendChartInstance) {
+				revenueTrendChartInstance.data.labels = monthLabels;
+				revenueTrendChartInstance.data.datasets[0].data = revenueTrendData;
+				document.getElementById('mom-chart-title').innerText = `Month-over-Month Revenue Trend (${monthLabels[0]} – ${monthLabels[activeRange - 1]})`;
+				revenueTrendChartInstance.update();
+			}
+
+			if (tapsTrendChartInstance) {
+				tapsTrendChartInstance.data.labels = monthLabels;
+				tapsTrendChartInstance.data.datasets[0].data = tapsTrendData;
+				document.getElementById('taps-trend-chart-title').innerText = `Month-by-Month Customer Taps Comparison (${monthLabels[0]} – ${monthLabels[activeRange - 1]})`;
+				tapsTrendChartInstance.update();
+			}
+		}
+
+		function downloadReportPDF() {
+			const element = document.getElementById('pdf-content');
+			const panel = document.getElementById('inputs-panel');
+			const toolbar = document.getElementById('action-toolbar');
+			const clientName = document.getElementById('input-name').value.trim() || "Client";
+
+			panel.style.display = 'none';
+			toolbar.style.display = 'none';
+
+			const options = {
+				margin: [4, 4, 4, 4],
+				filename: `Executive-Report-${clientName.replace(/\s+/g, '_')}.pdf`,
+				image: { type: 'jpeg', quality: 1.0 },
+				html2canvas: { scale: 2, useCORS: true, logging: false, windowWidth: 680 },
+				jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+			};
+
+			html2pdf().from(element).set(options).save().then(function() {
+				panel.style.display = 'block';
+				toolbar.style.display = 'flex';
+			});
+		}
+
+		window.onload = initCharts;
+	</script>
+</body>
+
+</html>
