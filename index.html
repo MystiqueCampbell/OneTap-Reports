@@ -49,8 +49,6 @@
 			padding: 10px 14px;
 			width: 100%;
 			margin: 0 auto;
-			display: flex;
-			flex-direction: column;
 		}
 
 		.report-header {
@@ -330,21 +328,17 @@
 			color: var(--text-main);
 		}
 
-		/* Footer Disclaimer Section locked to bottom of PDF */
-		.report-footer-section {
-			margin-top: auto;
-			padding-top: 6px;
-		}
-
+		/* Disclaimer Footer */
 		.report-disclaimer {
-			font-size: 6px;
+			font-size: 6.5px;
 			font-style: italic;
-			color: #64748b;
-			line-height: 1.2;
+			color: var(--text-muted);
+			line-height: 1.25;
+			margin-top: 5px;
+			margin-bottom: 5px;
 			text-align: justify;
 			border-top: 1px solid var(--border);
 			padding-top: 4px;
-			margin-bottom: 0;
 		}
 
 		.action-toolbar {
@@ -352,7 +346,6 @@
 			justify-content: flex-end;
 			border-top: 1.5px solid var(--border);
 			padding-top: 6px;
-			margin-top: 6px;
 		}
 
 		.btn-download {
@@ -438,15 +431,15 @@
 			<div class="metrics-summary-grid">
 				<div class="metric-card">
 					<div class="metric-label" id="spotlight-taps-label">Current Month Taps</div>
-					<div id="stat-taps" class="metric-val">120</div>
+					<div id="stat-taps" class="metric-val">0</div>
 				</div>
 				<div class="metric-card">
 					<div class="metric-label">Conversion Rate</div>
-					<div id="stat-conversion" class="metric-val">55.8%</div>
+					<div id="stat-conversion" class="metric-val">0%</div>
 				</div>
 				<div class="metric-card highlight">
 					<div class="metric-label">Est. Revenue Generated</div>
-					<div id="stat-rev-display" class="metric-val">$2,345</div>
+					<div id="stat-rev-display" class="metric-val">$0</div>
 				</div>
 			</div>
 
@@ -459,7 +452,7 @@
 						<canvas id="conversionChart"></canvas>
 					</div>
 					<div class="chart-synopsis" id="synopsis-conversion">
-						Out of 120 total taps, 67 customers left reviews and 53 left without reviewing.
+						No data entered yet. Please fill in the fields above.
 					</div>
 				</div>
 
@@ -470,7 +463,7 @@
 						<canvas id="revenueTrendChart"></canvas>
 					</div>
 					<div class="chart-synopsis" id="synopsis-revenue">
-						Monthly Estimated Revenue: July ($5,250), August ($4,200), September ($4,305), October ($4,900), November ($4,200).
+						No historical revenue data recorded yet.
 					</div>
 				</div>
 
@@ -481,7 +474,7 @@
 						<canvas id="tapsTrendChart"></canvas>
 					</div>
 					<div class="chart-synopsis" id="synopsis-taps">
-						Total Taps per Month: July (150), August (120), September (123), October (140), November (120).
+						No tap comparison data recorded yet.
 					</div>
 				</div>
 			</div>
@@ -490,7 +483,7 @@
 			<div class="insights-box">
 				<h4>Spotlight Insight</h4>
 				<div id="stat-insights" class="insights-content">
-					🚀 <strong>Current Month Spotlight:</strong> Out of 120 customer interactions, your team successfully captured 67 reviews (55.8% conversion efficiency). Based on an average sale value of $35, this specific monthly push generated $2,345 in new client revenue.
+					📊 <strong>Getting Started:</strong> Enter your numbers above to generate your live snapshot and custom business insights.
 				</div>
 			</div>
 
@@ -500,30 +493,28 @@
 			<div class="metrics-summary-grid large-grid">
 				<div class="metric-card">
 					<div class="metric-label">Total Customer Taps</div>
-					<div id="cum-taps" class="metric-val">583</div>
+					<div id="cum-taps" class="metric-val">0</div>
 				</div>
 				<div class="metric-card">
 					<div class="metric-label">Total Reviews Captured</div>
-					<div id="cum-captured" class="metric-val">399</div>
+					<div id="cum-captured" class="metric-val">0</div>
 				</div>
 				<div class="metric-card highlight">
 					<div class="metric-label">Total Est. Revenue Generated</div>
-					<div id="cum-revenue" class="metric-val">$7,165</div>
+					<div id="cum-revenue" class="metric-val">$0</div>
 				</div>
 			</div>
 
 			<div class="insights-box combined-box">
 				<h4>A Look at What’s Been Happening</h4>
 				<div id="cum-insights" class="insights-content">
-					📈 <strong>Active Period Impact:</strong> Across your active tracking window, your team recorded 583 total customer taps, successfully capturing <strong>399 verified reviews</strong> (68.4% overall efficiency). This consistent engagement directly influenced an estimated <strong>$7,165</strong> in total new client revenue.
+					📈 <strong>Active Period Impact:</strong> Input your data above to track cumulative multi-month performance totals and review growth.
 				</div>
 			</div>
 
-			<!-- Footer Disclaimer Section (Locked at the bottom of the PDF report layout) -->
-			<div class="report-footer-section">
-				<div class="report-disclaimer">
-					<strong>Disclaimer:</strong> Estimated revenue figures are calculated using an average ticket value and actual transaction amounts may vary higher or lower. Additionally, total reviews captured reflect overall Google review activity and are not exclusively limited to NFC card taps. This report is designed to illustrate trends, correlations, and general performance over time rather than exact individual attributions.
-				</div>
+			<!-- Disclaimer Footer -->
+			<div class="report-disclaimer">
+				<strong>Disclaimer:</strong> Estimated revenue figures are calculated using an average ticket value and actual transaction amounts may vary higher or lower. Additionally, total reviews captured reflect overall Google review activity and are not exclusively limited to NFC card taps. This report is designed to illustrate trends, correlations, and general performance over time rather than exact individual attributions.
 			</div>
 
 			<!-- Action Download Toolbar -->
@@ -550,11 +541,11 @@
 		let tapsTrendChartInstance = null;
 
 		const monthDataStore = {
-			1: { taps: '150', captured: '67', ticket: '35' },
-			2: { taps: '120', captured: '88', ticket: '35' },
-			3: { taps: '123', captured: '77', ticket: '35' },
-			4: { taps: '140', captured: '55', ticket: '35' },
-			5: { taps: '120', captured: '67', ticket: '35' },
+			1: { taps: '', captured: '', ticket: '' },
+			2: { taps: '', captured: '', ticket: '' },
+			3: { taps: '', captured: '', ticket: '' },
+			4: { taps: '', captured: '', ticket: '' },
+			5: { taps: '', captured: '', ticket: '' },
 			6: { taps: '', captured: '', ticket: '' }
 		};
 
@@ -594,15 +585,15 @@
 						<div class="month-grid-3">
 							<div class="form-group">
 								<label>Customer Taps</label>
-								<input type="number" id="taps-m${i}" value="${monthDataStore[i].taps}" placeholder="150" oninput="updateDashboard()">
+								<input type="number" id="taps-m${i}" value="${monthDataStore[i].taps}" placeholder="0" oninput="updateDashboard()">
 							</div>
 							<div class="form-group">
 								<label>Reviews Captured</label>
-								<input type="number" id="captured-m${i}" value="${monthDataStore[i].captured}" placeholder="125" oninput="updateDashboard()">
+								<input type="number" id="captured-m${i}" value="${monthDataStore[i].captured}" placeholder="0" oninput="updateDashboard()">
 							</div>
 							<div class="form-group">
 								<label>Avg. Ticket ($)</label>
-								<input type="number" id="ticket-m${i}" value="${monthDataStore[i].ticket}" placeholder="45" oninput="updateDashboard()">
+								<input type="number" id="ticket-m${i}" value="${monthDataStore[i].ticket}" placeholder="0" oninput="updateDashboard()">
 							</div>
 						</div>
 					</div>
@@ -632,7 +623,7 @@
 				data: {
 					labels: ['Completed Reviews', 'Abandoned Taps'],
 					datasets: [{
-						data: [67, 53],
+						data: [0, 0],
 						backgroundColor: ['#059669', '#94a3b8'],
 						borderRadius: 4
 					}]
@@ -660,9 +651,9 @@
 			revenueTrendChartInstance = new Chart(ctxRevenue, {
 				type: 'line',
 				data: {
-					labels: ['July', 'August', 'September', 'October', 'November'],
+					labels: [],
 					datasets: [{
-						data: [2345, 3080, 2695, 1925, 2345],
+						data: [],
 						borderColor: '#2563eb',
 						backgroundColor: 'rgba(37, 99, 235, 0.1)',
 						borderWidth: 3,
@@ -695,9 +686,9 @@
 			tapsTrendChartInstance = new Chart(ctxTapsTrend, {
 				type: 'bar',
 				data: {
-					labels: ['July', 'August', 'September', 'October', 'November'],
+					labels: [],
 					datasets: [{
-						data: [150, 120, 123, 140, 120],
+						data: [],
 						backgroundColor: '#059669',
 						borderRadius: 4,
 						maxBarThickness: 32
@@ -763,7 +754,11 @@
 
 			// Update Chart 1 Synopsis text box
 			const uncaptured = Math.max(0, sTaps - sCaptured);
-			document.getElementById('synopsis-conversion').innerText = `During ${spotlightMonthLabel}: Out of ${sTaps} total customer taps, ${sCaptured} successfully left reviews and ${uncaptured} left without reviewing.`;
+			if (sTaps === 0 && sCaptured === 0) {
+				document.getElementById('synopsis-conversion').innerText = `No data entered for ${spotlightMonthLabel} yet.`;
+			} else {
+				document.getElementById('synopsis-conversion').innerText = `During ${spotlightMonthLabel}: Out of ${sTaps} total customer taps, ${sCaptured} successfully left reviews and ${uncaptured} left without reviewing.`;
+			}
 
 			if (sTaps === 0) {
 				document.getElementById('stat-insights').innerHTML = `📊 <strong>Getting Started:</strong> Enter your numbers for ${spotlightMonthLabel} above.`;
@@ -778,12 +773,17 @@
 			let tapsTrendData = [];
 			let revSummaryParts = [];
 			let tapsSummaryParts = [];
+			let hasAnyData = false;
 
 			for (let i = 1; i <= activeRange; i++) {
 				const mtaps = parseFloat(monthDataStore[i].taps) || 0;
 				const mcap = parseFloat(monthDataStore[i].captured) || 0;
 				const mtick = parseFloat(monthDataStore[i].ticket) || 0;
 				const mrev = mcap * mtick;
+
+				if (mtaps > 0 || mcap > 0 || mtick > 0) {
+					hasAnyData = true;
+				}
 
 				totalTaps += mtaps;
 				totalCaptured += mcap;
@@ -797,15 +797,24 @@
 			}
 
 			// Update Chart 2 & 3 Synopses text boxes
-			document.getElementById('synopsis-revenue').innerText = `Estimated Revenue per Month — ${revSummaryParts.join(' | ')}`;
-			document.getElementById('synopsis-taps').innerText = `Customer Taps per Month — ${tapsSummaryParts.join(' | ')}`;
+			if (!hasAnyData) {
+				document.getElementById('synopsis-revenue').innerText = `No historical revenue data recorded yet.`;
+				document.getElementById('synopsis-taps').innerText = `No tap comparison data recorded yet.`;
+			} else {
+				document.getElementById('synopsis-revenue').innerText = `Estimated Revenue per Month — ${revSummaryParts.join(' | ')}`;
+				document.getElementById('synopsis-taps').innerText = `Customer Taps per Month — ${tapsSummaryParts.join(' | ')}`;
+			}
 
 			document.getElementById('cum-taps').innerText = totalTaps.toLocaleString();
 			document.getElementById('cum-captured').innerText = totalCaptured.toLocaleString();
 			document.getElementById('cum-revenue').innerText = "$" + Math.round(totalRevenue).toLocaleString();
 
 			let overallConv = totalTaps > 0 ? (totalCaptured / totalTaps) * 100 : 0;
-			document.getElementById('cum-insights').innerHTML = `📈 <strong>Active ${activeRange}-Month Impact (${monthLabels[0]} – ${monthLabels[activeRange - 1]}):</strong> Across your active tracking period, your team recorded ${totalTaps.toLocaleString()} total customer taps, successfully capturing <strong>${totalCaptured.toLocaleString()} verified reviews</strong> (${overallConv.toFixed(1)}% overall efficiency). This consistent engagement directly influenced an estimated <strong>$${Math.round(totalRevenue).toLocaleString()}</strong> in total new client revenue.`;
+			if (!hasAnyData) {
+				document.getElementById('cum-insights').innerHTML = `📈 <strong>Active Period Impact:</strong> Input your data above to track cumulative multi-month performance totals and review growth.`;
+			} else {
+				document.getElementById('cum-insights').innerHTML = `📈 <strong>Active ${activeRange}-Month Impact (${monthLabels[0]} – ${monthLabels[activeRange - 1]}):</strong> Across your active tracking period, your team recorded ${totalTaps.toLocaleString()} total customer taps, successfully capturing <strong>${totalCaptured.toLocaleString()} verified reviews</strong> (${overallConv.toFixed(1)}% overall efficiency). This consistent engagement directly influenced an estimated <strong>$${Math.round(totalRevenue).toLocaleString()}</strong> in total new client revenue.`;
+			}
 
 			if (conversionChartInstance) {
 				conversionChartInstance.data.datasets[0].data = [sCaptured, uncaptured];
