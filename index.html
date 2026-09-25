@@ -152,9 +152,9 @@
 			text-transform: uppercase;
 		}
 
-		.month-grid-3 {
+		.month-grid-2 {
 			display: grid;
-			grid-template-columns: repeat(3, 1fr);
+			grid-template-columns: repeat(2, 1fr);
 			gap: 4px;
 		}
 
@@ -376,25 +376,25 @@
 					<div class="brand-logo">1T</div>
 					<div class="brand-info">
 						<h1>OneTap Technology</h1>
-						<p>Reputation Growth Engine</p>
+						<p>Customer Review Growth Report</p>
 					</div>
 				</div>
 				<div class="report-meta">
-					<h2>Executive Performance Report</h2>
-					<p id="meta-display">Client Analytics Overview</p>
+					<h2>Business Performance Summary</h2>
+					<p id="meta-display">Review Analytics Overview</p>
 				</div>
 			</div>
 
 			<!-- Live Editable Input Controls -->
 			<div class="control-panel" id="inputs-panel">
-				<h3>Configure Report Parameters & Historical Data</h3>
+				<h3>Enter Business Details & Monthly Numbers</h3>
 				<div class="form-grid">
 					<div class="form-group">
 						<label for="input-name">Business Name</label>
 						<input type="text" id="input-name" placeholder="e.g., Apex Barbershop" oninput="updateDashboard()">
 					</div>
 					<div class="form-group">
-						<label for="input-timeline">Active Range Length</label>
+						<label for="input-timeline">Reporting Period Length</label>
 						<select id="input-timeline" onchange="renderMonthInputs(); updateDashboard();">
 							<option value="1">1 Month</option>
 							<option value="2">2 Months</option>
@@ -402,10 +402,16 @@
 							<option value="4">4 Months</option>
 							<option value="5" selected>5 Months</option>
 							<option value="6">6 Months</option>
+							<option value="7">7 Months</option>
+							<option value="8">8 Months</option>
+							<option value="9">9 Months</option>
+							<option value="10">10 Months</option>
+							<option value="11">11 Months</option>
+							<option value="12">12 Months</option>
 						</select>
 					</div>
 					<div class="form-group">
-						<label for="input-current-month">Current Active Month</label>
+						<label for="input-current-month">Latest Month Shown</label>
 						<select id="input-current-month" onchange="renderMonthInputs(); updateDashboard();">
 							<option value="January">January</option>
 							<option value="February">February</option>
@@ -415,9 +421,9 @@
 							<option value="June">June</option>
 							<option value="July">July</option>
 							<option value="August">August</option>
-							<option value="September">September</option>
+							<option value="September" selected>September</option>
 							<option value="October">October</option>
-							<option value="November" selected>November</option>
+							<option value="November">November</option>
 							<option value="December">December</option>
 						</select>
 					</div>
@@ -426,19 +432,19 @@
 			</div>
 
 			<!-- SECTION 1: SPOTLIGHT -->
-			<div class="section-header-title" id="spotlight-section-title">Current Month Breakdown & Spotlight</div>
+			<div class="section-header-title" id="spotlight-section-title">Latest Month Results</div>
 
 			<div class="metrics-summary-grid">
 				<div class="metric-card">
-					<div class="metric-label" id="spotlight-taps-label">Current Month Taps</div>
+					<div class="metric-label" id="spotlight-taps-label">Customer Taps</div>
 					<div id="stat-taps" class="metric-val">0</div>
 				</div>
 				<div class="metric-card">
-					<div class="metric-label">Conversion Rate</div>
+					<div class="metric-label">Review Success Rate</div>
 					<div id="stat-conversion" class="metric-val">0%</div>
 				</div>
 				<div class="metric-card highlight">
-					<div class="metric-label">Est. Revenue Generated</div>
+					<div class="metric-label">Estimated Value Generated</div>
 					<div id="stat-rev-display" class="metric-val">$0</div>
 				</div>
 			</div>
@@ -447,7 +453,7 @@
 			<div class="charts-column">
 				<!-- Chart 1 -->
 				<div class="chart-card">
-					<div class="chart-title" id="conversion-chart-title">Tap-to-Review Conversion (Current Month Spotlight)</div>
+					<div class="chart-title" id="conversion-chart-title">Review Success Breakdown</div>
 					<div class="chart-container">
 						<canvas id="conversionChart"></canvas>
 					</div>
@@ -458,18 +464,18 @@
 
 				<!-- Chart 2 -->
 				<div class="chart-card">
-					<div class="chart-title" id="mom-chart-title">Month-over-Month Revenue Trend</div>
+					<div class="chart-title" id="mom-chart-title">Review Value Growth Over Time</div>
 					<div class="chart-container">
 						<canvas id="revenueTrendChart"></canvas>
 					</div>
 					<div class="chart-synopsis" id="synopsis-revenue">
-						No historical revenue data recorded yet.
+						No historical data recorded yet.
 					</div>
 				</div>
 
 				<!-- Chart 3 -->
 				<div class="chart-card">
-					<div class="chart-title" id="taps-trend-chart-title">Month-by-Month Customer Taps Comparison</div>
+					<div class="chart-title" id="taps-trend-chart-title">Customer Taps Each Month</div>
 					<div class="chart-container">
 						<canvas id="tapsTrendChart"></canvas>
 					</div>
@@ -481,14 +487,14 @@
 
 			<!-- Spotlight Insight -->
 			<div class="insights-box">
-				<h4>Spotlight Insight</h4>
+				<h4>Quick Takeaway</h4>
 				<div id="stat-insights" class="insights-content">
-					📊 <strong>Getting Started:</strong> Enter your numbers above to generate your live snapshot and custom business insights.
+					📊 <strong>Getting Started:</strong> Enter your numbers above to see your summary and review results.
 				</div>
 			</div>
 
 			<!-- SECTION 2: CUMULATIVE SUMMARY -->
-			<div class="section-header-title" id="cumulative-section-title">Overall Multi-Month Performance Summary</div>
+			<div class="section-header-title" id="cumulative-section-title">Total Performance Summary</div>
 
 			<div class="metrics-summary-grid large-grid">
 				<div class="metric-card">
@@ -496,25 +502,25 @@
 					<div id="cum-taps" class="metric-val">0</div>
 				</div>
 				<div class="metric-card">
-					<div class="metric-label">Total Reviews Captured</div>
+					<div class="metric-label">Total Reviews Gained</div>
 					<div id="cum-captured" class="metric-val">0</div>
 				</div>
 				<div class="metric-card highlight">
-					<div class="metric-label">Total Est. Revenue Generated</div>
+					<div class="metric-label">Total Value Created</div>
 					<div id="cum-revenue" class="metric-val">$0</div>
 				</div>
 			</div>
 
 			<div class="insights-box combined-box">
-				<h4>A Look at What’s Been Happening</h4>
+				<h4>Overall Progress</h4>
 				<div id="cum-insights" class="insights-content">
-					📈 <strong>Active Period Impact:</strong> Input your data above to track cumulative multi-month performance totals and review growth.
+					📈 <strong>Period Summary:</strong> Input your data above to track your total review growth over time.
 				</div>
 			</div>
 
 			<!-- Disclaimer Footer -->
 			<div class="report-disclaimer">
-				<strong>Disclaimer:</strong> Estimated revenue figures are calculated using an average ticket value and actual transaction amounts may vary higher or lower. Additionally, total reviews captured reflect overall Google review activity and are not exclusively limited to NFC card taps. This report is designed to illustrate trends, correlations, and general performance over time rather than exact individual attributions.
+				<strong>Note:</strong> Review value is estimated using a standard baseline marketing calculation of $50 per verified Google review to help reflect the value of improved online visibility and customer trust.
 			</div>
 
 			<!-- Action Download Toolbar -->
@@ -525,7 +531,7 @@
 						<polyline points="7 10 12 15 17 10"></polyline>
 						<line x1="12" y1="15" x2="12" y2="3"></line>
 					</svg>
-					Download 1-Page Executive PDF Report
+					Download 1-Page Summary PDF
 				</button>
 			</div>
 
@@ -540,20 +546,16 @@
 		let revenueTrendChartInstance = null;
 		let tapsTrendChartInstance = null;
 
-		const monthDataStore = {
-			1: { taps: '', captured: '', ticket: '' },
-			2: { taps: '', captured: '', ticket: '' },
-			3: { taps: '', captured: '', ticket: '' },
-			4: { taps: '', captured: '', ticket: '' },
-			5: { taps: '', captured: '', ticket: '' },
-			6: { taps: '', captured: '', ticket: '' }
-		};
+		const monthDataStore = {};
+		for (let i = 1; i <= 12; i++) {
+			monthDataStore[i] = { taps: '', captured: '' };
+		}
 
 		function getActiveMonthLabels() {
 			const activeRange = parseInt(document.getElementById('input-timeline').value) || 5;
 			const currentMonthSelect = document.getElementById('input-current-month').value;
 			let currentIdx = allMonthsList.indexOf(currentMonthSelect);
-			if (currentIdx === -1) currentIdx = 10;
+			if (currentIdx === -1) currentIdx = 8; // Default to September
 
 			let labels = [];
 			for (let i = activeRange - 1; i >= 0; i--) {
@@ -566,34 +568,28 @@
 		function renderMonthInputs() {
 			const activeRange = parseInt(document.getElementById('input-timeline').value) || 5;
 
-			for (let i = 1; i <= 6; i++) {
+			for (let i = 1; i <= 12; i++) {
 				const tInput = document.getElementById(`taps-m${i}`);
 				const cInput = document.getElementById(`captured-m${i}`);
-				const tkInput = document.getElementById(`ticket-m${i}`);
 				if (tInput) monthDataStore[i].taps = tInput.value;
 				if (cInput) monthDataStore[i].captured = cInput.value;
-				if (tkInput) monthDataStore[i].ticket = tkInput.value;
 			}
 
 			const monthLabels = getActiveMonthLabels();
 			let html = '';
 			for (let i = 1; i <= activeRange; i++) {
-				const labelName = `${monthLabels[i - 1]} Data Entry (Month ${i})`;
+				const labelName = `${monthLabels[i - 1]} Data (Month ${i})`;
 				html += `
 					<div class="month-input-row">
 						<h4>${labelName}</h4>
-						<div class="month-grid-3">
+						<div class="month-grid-2">
 							<div class="form-group">
 								<label>Customer Taps</label>
 								<input type="number" id="taps-m${i}" value="${monthDataStore[i].taps}" placeholder="0" oninput="updateDashboard()">
 							</div>
 							<div class="form-group">
-								<label>Reviews Captured</label>
+								<label>Reviews Gained</label>
 								<input type="number" id="captured-m${i}" value="${monthDataStore[i].captured}" placeholder="0" oninput="updateDashboard()">
-							</div>
-							<div class="form-group">
-								<label>Avg. Ticket ($)</label>
-								<input type="number" id="ticket-m${i}" value="${monthDataStore[i].ticket}" placeholder="0" oninput="updateDashboard()">
 							</div>
 						</div>
 					</div>
@@ -616,16 +612,17 @@
 				}
 			};
 
-			// Chart 1: Conversion Breakdown
+			// Chart 1: Conversion Funnel
 			const ctxConversion = document.getElementById('conversionChart').getContext('2d');
 			conversionChartInstance = new Chart(ctxConversion, {
 				type: 'bar',
 				data: {
-					labels: ['Completed Reviews', 'Abandoned Taps'],
+					labels: ['Reviews Gained', 'Total Customer Taps'],
 					datasets: [{
 						data: [0, 0],
-						backgroundColor: ['#059669', '#94a3b8'],
-						borderRadius: 4
+						backgroundColor: ['#059669', '#3b82f6'],
+						borderRadius: 4,
+						maxBarThickness: 36
 					}]
 				},
 				options: {
@@ -646,7 +643,7 @@
 				}
 			});
 
-			// Chart 2: Revenue Trend Line
+			// Chart 2: Asset Value Trend Line
 			const ctxRevenue = document.getElementById('revenueTrendChart').getContext('2d');
 			revenueTrendChartInstance = new Chart(ctxRevenue, {
 				type: 'line',
@@ -654,11 +651,11 @@
 					labels: [],
 					datasets: [{
 						data: [],
-						borderColor: '#2563eb',
-						backgroundColor: 'rgba(37, 99, 235, 0.1)',
+						borderColor: '#059669',
+						backgroundColor: 'rgba(5, 150, 105, 0.1)',
 						borderWidth: 3,
 						pointRadius: 3,
-						pointBackgroundColor: '#2563eb',
+						pointBackgroundColor: '#059669',
 						tension: 0.1,
 						fill: true
 					}]
@@ -689,7 +686,7 @@
 					labels: [],
 					datasets: [{
 						data: [],
-						backgroundColor: '#059669',
+						backgroundColor: '#3b82f6',
 						borderRadius: 4,
 						maxBarThickness: 32
 					}]
@@ -717,17 +714,15 @@
 		}
 
 		function updateDashboard() {
-			const name = document.getElementById('input-name').value.trim() || "Client Overview";
+			const name = document.getElementById('input-name').value.trim() || "My Business";
 			const activeRange = parseInt(document.getElementById('input-timeline').value) || 5;
 			const monthLabels = getActiveMonthLabels();
 
 			for (let i = 1; i <= activeRange; i++) {
 				const tInput = document.getElementById(`taps-m${i}`);
 				const cInput = document.getElementById(`captured-m${i}`);
-				const tkInput = document.getElementById(`ticket-m${i}`);
 				if (tInput) monthDataStore[i].taps = tInput.value;
 				if (cInput) monthDataStore[i].captured = cInput.value;
-				if (tkInput) monthDataStore[i].ticket = tkInput.value;
 			}
 
 			const spotlightMonthIndex = activeRange;
@@ -735,12 +730,13 @@
 
 			const sTaps = parseFloat(monthDataStore[spotlightMonthIndex].taps) || 0;
 			const sCaptured = parseFloat(monthDataStore[spotlightMonthIndex].captured) || 0;
-			const sTicket = parseFloat(monthDataStore[spotlightMonthIndex].ticket) || 0;
-			const sRevenue = sCaptured * sTicket;
 
-			document.getElementById('meta-display').innerText = (name !== "Client Overview" ? name : "Client Analytics Overview") + ` | ${activeRange}-Month Tracking`;
-			document.getElementById('spotlight-section-title').innerText = `${spotlightMonthLabel} Breakdown & Spotlight`;
-			document.getElementById('spotlight-taps-label').innerText = `${spotlightMonthLabel} Taps`;
+			const assetValuePerReview = 50;
+			const sAssetValue = sCaptured * assetValuePerReview;
+
+			document.getElementById('meta-display').innerText = (name !== "My Business" ? name : "Review Overview") + ` | ${activeRange}-Month Report`;
+			document.getElementById('spotlight-section-title').innerText = `${spotlightMonthLabel} Results`;
+			document.getElementById('spotlight-taps-label').innerText = `${spotlightMonthLabel} Customer Taps`;
 			document.getElementById('stat-taps').innerText = sTaps > 0 ? sTaps.toLocaleString() : "0";
 
 			let sConv = 0;
@@ -750,89 +746,87 @@
 			} else {
 				document.getElementById('stat-conversion').innerText = "0%";
 			}
-			document.getElementById('stat-rev-display').innerText = "$" + Math.round(sRevenue).toLocaleString();
+			document.getElementById('stat-rev-display').innerText = "$" + Math.round(sAssetValue).toLocaleString();
 
 			// Update Chart 1 Synopsis text box
-			const uncaptured = Math.max(0, sTaps - sCaptured);
 			if (sTaps === 0 && sCaptured === 0) {
 				document.getElementById('synopsis-conversion').innerText = `No data entered for ${spotlightMonthLabel} yet.`;
 			} else {
-				document.getElementById('synopsis-conversion').innerText = `During ${spotlightMonthLabel}: Out of ${sTaps} total customer taps, ${sCaptured} successfully left reviews and ${uncaptured} left without reviewing.`;
+				document.getElementById('synopsis-conversion').innerText = `In ${spotlightMonthLabel}: Reached out to ${sTaps} customers, successfully gaining ${sCaptured} new Google reviews.`;
 			}
 
 			if (sTaps === 0) {
 				document.getElementById('stat-insights').innerHTML = `📊 <strong>Getting Started:</strong> Enter your numbers for ${spotlightMonthLabel} above.`;
 			} else {
-				document.getElementById('stat-insights').innerHTML = `🚀 <strong>${spotlightMonthLabel} Spotlight:</strong> Out of ${sTaps} customer interactions, your team successfully captured <strong>${sCaptured} reviews</strong> (${sConv.toFixed(1)}% conversion efficiency). Based on an average sale value of $${sTicket}, this specific monthly push generated <strong>$${Math.round(sRevenue).toLocaleString()}</strong> in new client revenue.`;
+				document.getElementById('stat-insights').innerHTML = `🌟 <strong>${spotlightMonthLabel} Highlights:</strong> Out of ${sTaps} customer interactions, you successfully gained <strong>${sCaptured} reviews</strong> (${sConv.toFixed(1)}% success rate). This adds an estimated <strong>$${Math.round(sAssetValue).toLocaleString()}</strong> in marketing and search value to your business profile.`;
 			}
 
 			let totalTaps = 0;
 			let totalCaptured = 0;
-			let totalRevenue = 0;
-			let revenueTrendData = [];
+			let totalAssetValue = 0;
+			let assetTrendData = [];
 			let tapsTrendData = [];
-			let revSummaryParts = [];
+			let assetSummaryParts = [];
 			let tapsSummaryParts = [];
 			let hasAnyData = false;
 
 			for (let i = 1; i <= activeRange; i++) {
 				const mtaps = parseFloat(monthDataStore[i].taps) || 0;
 				const mcap = parseFloat(monthDataStore[i].captured) || 0;
-				const mtick = parseFloat(monthDataStore[i].ticket) || 0;
-				const mrev = mcap * mtick;
+				const mval = mcap * assetValuePerReview;
 
-				if (mtaps > 0 || mcap > 0 || mtick > 0) {
+				if (mtaps > 0 || mcap > 0) {
 					hasAnyData = true;
 				}
 
 				totalTaps += mtaps;
 				totalCaptured += mcap;
-				totalRevenue += mrev;
+				totalAssetValue += mval;
 
-				revenueTrendData.push(mrev);
+				assetTrendData.push(mval);
 				tapsTrendData.push(mtaps);
 
-				revSummaryParts.push(`${monthLabels[i-1]}: $${Math.round(mrev).toLocaleString()}`);
+				assetSummaryParts.push(`${monthLabels[i-1]}: $${Math.round(mval).toLocaleString()}`);
 				tapsSummaryParts.push(`${monthLabels[i-1]}: ${mtaps.toLocaleString()} taps`);
 			}
 
 			// Update Chart 2 & 3 Synopses text boxes
 			if (!hasAnyData) {
-				document.getElementById('synopsis-revenue').innerText = `No historical revenue data recorded yet.`;
+				document.getElementById('synopsis-revenue').innerText = `No historical data recorded yet.`;
 				document.getElementById('synopsis-taps').innerText = `No tap comparison data recorded yet.`;
 			} else {
-				document.getElementById('synopsis-revenue').innerText = `Estimated Revenue per Month — ${revSummaryParts.join(' | ')}`;
-				document.getElementById('synopsis-taps').innerText = `Customer Taps per Month — ${tapsSummaryParts.join(' | ')}`;
+				document.getElementById('synopsis-revenue').innerText = `Value Trend — ${assetSummaryParts.join(' | ')}`;
+				document.getElementById('synopsis-taps').innerText = `Customer Taps — ${tapsSummaryParts.join(' | ')}`;
 			}
 
 			document.getElementById('cum-taps').innerText = totalTaps.toLocaleString();
 			document.getElementById('cum-captured').innerText = totalCaptured.toLocaleString();
-			document.getElementById('cum-revenue').innerText = "$" + Math.round(totalRevenue).toLocaleString();
+			document.getElementById('cum-revenue').innerText = "$" + Math.round(totalAssetValue).toLocaleString();
 
 			let overallConv = totalTaps > 0 ? (totalCaptured / totalTaps) * 100 : 0;
 			if (!hasAnyData) {
-				document.getElementById('cum-insights').innerHTML = `📈 <strong>Active Period Impact:</strong> Input your data above to track cumulative multi-month performance totals and review growth.`;
+				document.getElementById('cum-insights').innerHTML = `📈 <strong>Overall Progress:</strong> Input your data above to track your total review growth over time.`;
 			} else {
-				document.getElementById('cum-insights').innerHTML = `📈 <strong>Active ${activeRange}-Month Impact (${monthLabels[0]} – ${monthLabels[activeRange - 1]}):</strong> Across your active tracking period, your team recorded ${totalTaps.toLocaleString()} total customer taps, successfully capturing <strong>${totalCaptured.toLocaleString()} verified reviews</strong> (${overallConv.toFixed(1)}% overall efficiency). This consistent engagement directly influenced an estimated <strong>$${Math.round(totalRevenue).toLocaleString()}</strong> in total new client revenue.`;
+				document.getElementById('cum-insights').innerHTML = `📈 <strong>${activeRange}-Month Total (${monthLabels[0]} – ${monthLabels[activeRange - 1]}):</strong> You recorded ${totalTaps.toLocaleString()} customer taps, successfully gaining <strong>${totalCaptured.toLocaleString()} total reviews</strong> (${overallConv.toFixed(1)}% overall success rate). This brought an estimated <strong>$${Math.round(totalAssetValue).toLocaleString()}</strong> in total review value to your business.`;
 			}
 
 			if (conversionChartInstance) {
-				conversionChartInstance.data.datasets[0].data = [sCaptured, uncaptured];
-				document.getElementById('conversion-chart-title').innerText = `Tap-to-Review Conversion (${spotlightMonthLabel} Spotlight)`;
+				conversionChartInstance.data.datasets[0].data = [sCaptured, sTaps];
+				document.getElementById('conversion-chart-title').innerText = `Review Success Breakdown (${spotlightMonthLabel})`;
 				conversionChartInstance.update();
 			}
 
 			if (revenueTrendChartInstance) {
 				revenueTrendChartInstance.data.labels = monthLabels;
-				revenueTrendChartInstance.data.datasets[0].data = revenueTrendData;
-				document.getElementById('mom-chart-title').innerText = `Month-over-Month Revenue Trend (${monthLabels[0]} – ${monthLabels[activeRange - 1]})`;
+				revenueTrendChartInstance.data.datasets[0].data = assetTrendData;
+				document.getElementById('mom-chart-title').innerText = `Review Value Growth Over Time (${monthLabels[0]} – ${monthLabels[activeRange - 1]})`;
 				revenueTrendChartInstance.update();
 			}
 
 			if (tapsTrendChartInstance) {
 				tapsTrendChartInstance.data.labels = monthLabels;
 				tapsTrendChartInstance.data.datasets[0].data = tapsTrendData;
-				document.getElementById('taps-trend-chart-title').innerText = `Month-by-Month Customer Taps Comparison (${monthLabels[0]} – ${monthLabels[activeRange - 1]})`;
+				document.getElementById('taps-trend-chart-title').innerText = `Customer Taps Each Month (${monthLabels[0]} – ${monthLabels[activeRange - 1]})`;
 				tapsTrendChartInstance.update();
 			}
 		}
@@ -841,14 +835,14 @@
 			const element = document.getElementById('pdf-content');
 			const panel = document.getElementById('inputs-panel');
 			const toolbar = document.getElementById('action-toolbar');
-			const clientName = document.getElementById('input-name').value.trim() || "Client";
+			const clientName = document.getElementById('input-name').value.trim() || "Business";
 
 			panel.style.display = 'none';
 			toolbar.style.display = 'none';
 
 			const options = {
 				margin: [4, 4, 4, 4],
-				filename: `Executive-Report-${clientName.replace(/\s+/g, '_')}.pdf`,
+				filename: `Review-Report-${clientName.replace(/\s+/g, '_')}.pdf`,
 				image: { type: 'jpeg', quality: 1.0 },
 				html2canvas: { scale: 2, useCORS: true, logging: false, windowWidth: 680 },
 				jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
